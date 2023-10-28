@@ -1,1 +1,5 @@
-
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:33060/tasklist?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
+    username: mysql
+    password: root
