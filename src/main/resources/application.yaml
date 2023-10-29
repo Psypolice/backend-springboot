@@ -3,3 +3,5 @@ spring:
     url: jdbc:mysql://localhost:3306/tasklist?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
     username: root
     password: root
+  jpa:
+    show-sql: true
