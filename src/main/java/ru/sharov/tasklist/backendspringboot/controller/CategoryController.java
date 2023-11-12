@@ -16,6 +16,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @RestController
 @RequestMapping("/category")
 @RequiredArgsConstructor
+@CrossOrigin
 public class CategoryController {
 
     private final CategoryRepository categoryRepository;

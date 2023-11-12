@@ -16,6 +16,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @RestController
 @RequestMapping("/prority")
 @RequiredArgsConstructor
+@CrossOrigin
 public class PriorityController {
 
     private final PriorityRepository priorityRepository;

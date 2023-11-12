@@ -19,6 +19,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @RestController
 @RequestMapping("/task")
 @RequiredArgsConstructor
+@CrossOrigin
 public class TaskController {
 
     private final TaskRepository taskRepository;
