@@ -27,30 +27,22 @@ public class CategoryController {
 
     @PostMapping("/add")
     public ResponseEntity<Category> add(@RequestBody Category category) {
-        if (isNotBlank(category.getTitle())) {
-            return new ResponseEntity("redundant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
-        }
-        if (isBlank(category.getTitle())) {
-            return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
-        }
+        var NOT_ACCEPTABLE = checkCategory(category);
+        if (NOT_ACCEPTABLE != null) return NOT_ACCEPTABLE;
         return ResponseEntity.ok(categoryRepository.save(category));
     }
 
     @PutMapping("/update")
     public ResponseEntity<Category> update(@RequestBody Category category) {
-        if (isNotBlank(category.getTitle())) {
-            return new ResponseEntity("redundant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
-        }
-        if (isBlank(category.getTitle())) {
-            return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
-        }
+        var NOT_ACCEPTABLE = checkCategory(category);
+        if (NOT_ACCEPTABLE != null) return NOT_ACCEPTABLE;
         return ResponseEntity.ok(categoryRepository.saveAndFlush(category));
     }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<Category> findById(@PathVariable Long id) {
         if (categoryRepository.findById(id).isEmpty()) {
-            return new ResponseEntity("id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity("category with id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
         }
         return ResponseEntity.ok(categoryRepository.findById(id).get());
     }
@@ -58,7 +50,7 @@ public class CategoryController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         if (categoryRepository.findById(id).isEmpty()) {
-            return new ResponseEntity("id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity("category with id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
         }
         categoryRepository.findById(id).ifPresent(categoryRepository::delete);
         return new ResponseEntity("Category was deleted", HttpStatus.OK);
@@ -67,6 +59,16 @@ public class CategoryController {
     @PostMapping("/search")
     public ResponseEntity<List<Category>> search(@RequestBody CategorySearchValues categorySearchValues) {
         return ResponseEntity.ok(categoryRepository.findByTitle(categorySearchValues.getText()));
+    }
+
+    private static ResponseEntity checkCategory(Category category) {
+        if (isNotBlank(category.getTitle())) {
+            return new ResponseEntity("redundant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
+        }
+        if (isBlank(category.getTitle())) {
+            return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
+        }
+        return null;
     }
 
 
